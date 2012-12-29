@@ -38,16 +38,23 @@ public class TDM {
         BufferedWriter bw = new BufferedWriter(new FileWriter("keywords.txt"));
         PrintWriter o1 = new PrintWriter(new BufferedWriter(new FileWriter("out.tsv")));
         o1.println("Name\t"+"Link\t"+"Similarity with tdidf\t"+"Similarity with lsi\t"+"Description");
-
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 21ce1d6278137c55f17e9268bee07571db75b6fe
 
 
                    BufferedReader br = new BufferedReader(new FileReader("new_t.tsv"));
 
+<<<<<<< HEAD
                     while((s=br.readLine())!=null)
-
+=======
         
         
         BufferedReader br = new BufferedReader(new FileReader("t.tsv"));
+=======
+                   
+>>>>>>> 21ce1d6278137c55f17e9268bee07571db75b6fe
         
         while((s=br.readLine())!=null)
         {
@@ -69,7 +76,11 @@ public class TDM {
                     t = stem.DoSuffixStremmer(t);
                     // put the stemmer here
                     if(keywordList.contains(t.toLowerCase())==false) //checking in keyword_array
+<<<<<<< HEAD
+>>>>>>> 0c1ff9101e89b7a88e2e4e4b532ebc27b8e4f0dd
+=======
 
+>>>>>>> 21ce1d6278137c55f17e9268bee07571db75b6fe
                     {
                         keywordList.add(t.toLowerCase()); // adding keyword to keyword_array
                         bw.write(t);
