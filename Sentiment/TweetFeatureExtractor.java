@@ -54,7 +54,7 @@ import weka.filters.unsupervised.attribute.StringToWordVector;
                 switch (Integer.parseInt(class_id))
                 {
 
-                   case 1:
+                   //case 1:
 				   case 0:
                         class_id = "very bad";
                         break;

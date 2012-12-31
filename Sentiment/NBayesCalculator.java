@@ -36,8 +36,9 @@ public class NBayesCalculator
     /**
      * Serialize Naive Bayes classifier
      */
-   public static void constructModel()
+   public static double constructModel(String tw)
     {
+	double label=0;
         try
         {
             BufferedReader reader = new BufferedReader(
@@ -57,7 +58,34 @@ public class NBayesCalculator
             classifier.buildClassifier(data);
             serialize(classifier);
             // evaluate classifier and print some statistics
+			
 			 NaiveBayes cls = (NaiveBayes) weka.core.SerializationHelper.read("nBayes.model");
+			 FastVector atts;
+
+            // 1. set up attributes
+            atts = new FastVector();
+            atts.addElement(new Attribute("content", (FastVector) null));
+
+
+            // Declare the class attribute along with its values
+            FastVector fvClassVal = new FastVector(4);
+          
+            
+            
+            Attribute ClassAttribute = new Attribute("Class", fvClassVal);
+            atts.addElement(ClassAttribute);
+			 Instances instdata = new Instances("testData", atts, 0);
+            Instance iInst = new Instance(2);
+            iInst.setValue((Attribute) atts.elementAt(0), tw);
+			 instdata.add(iInst);
+			 StringToWordVector filter = new StringToWordVector();
+
+
+            instdata.setClassIndex(instdata.numAttributes() - 1);
+			
+			filter.setDoNotOperateOnPerClassBasis(true); 
+            filter.setInputFormat(instdata);
+            Instances newdata = Filter.useFilter(instdata, filter);
             Evaluation eval = new Evaluation(data);
 			
 			 PrintWriter o1 = new PrintWriter(new BufferedWriter(new FileWriter("out.txt")));
@@ -66,18 +94,20 @@ public class NBayesCalculator
             //o1.println("\n\nClassifier model:\n\n" + classifier);
 			for(int i=0;i<data.numInstances();++i)
 			{
+				//System.out.println(data.instance(i));
 				double pred = cls.classifyInstance(data.instance(i));
    System.out.print("ID: " + data.instance(i).value(0));
    System.out.print(", actual: " + data.classAttribute().value((int) data.instance(i).classValue()));
    System.out.println(", predicted: " + data.classAttribute().value((int) pred));
 			}
-			
-			
+			cls.updateClassifier(newdata.instance(0));
+			 label=cls.classifyInstance(newdata.instance(0));
+			System.out.println("label "+label);
         } catch (Exception ex)
         {
             Logger.getLogger(NBayesCalculator.class.getName()).log(Level.SEVERE, null, ex);
         }
-		
+		return label;
 
     }
 
@@ -187,8 +217,11 @@ System.out.println("from here "+tw);
 
           System.out.println(newdata.toString());
             newdata.setClassIndex(0);
-            clsLabel = cls.classifyInstance(newdata.instance(0));
-			double[] clsarr=cls.distributionForInstance(instdata.instance(0));
+			/*System.out.println("call2");
+            clsLabel = cls.classifyInstance(newdata.instance(0));*/
+			 System.out.println("call1");
+			 
+			double[] clsarr=cls.distributionForInstance(newdata.instance(0));
 			for(int i=0;i<clsarr.length;++i)
 			System.out.println(clsarr[i]);
             int label = (int) clsLabel;

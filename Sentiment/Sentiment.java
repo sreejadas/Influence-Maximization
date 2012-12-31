@@ -7,9 +7,9 @@ public class Sentiment{
 			/* preprocessing of training data*/
 			//Preprocess.preprocess_Training_data();
 			TweetFeatureExtractor.constructModel();
-			NBayesCalculator.constructModel();
+			//NBayesCalculator.constructModel();
 			System.out.println("\n\n");
-			System.out.println(NBayesCalculator.classifyNewTweet( "ahh ive always wanted to see rent  love the soundtrack!!"));
+			System.out.println(NBayesCalculator.constructModel( "I think that you both will get on well with each other..."));
 	
 	}
 }
