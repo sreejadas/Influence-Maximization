@@ -60,7 +60,7 @@ public class ClassifierBuilder {
                 clas.setClassifier(classifier);
                 if(this.opt.getNumFeatures()!=0)
                         clas.selectFeatures(opt.getNumFeatures());
-                System.out.println("inizio train");
+                
                 clas.train();
                 ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("files/" + classifier.getClass().getName() + ".model"));
                 os.writeObject(clas);

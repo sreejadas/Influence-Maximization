@@ -48,7 +48,7 @@ public class DocumentsSet {
             }
             in.close();
         }catch (Exception e){
-            System.err.println("Errore: " + e.getMessage());
+            System.err.println("Error " + e.getMessage());
         }
         _polarity = p;
     }
@@ -78,7 +78,7 @@ public class DocumentsSet {
 							continue;
                         if(f2i.get(tmp)!=null) {
                                 num = f2i.get(tmp);
-                                //solo se non lo contiene già
+                               
                                 if(!index.get(i).contains(num)) {
                                         index.get(i).add(num);
                                         index_str.get(i).add(tmp);
@@ -122,7 +122,7 @@ public class DocumentsSet {
                         tmp = st.nextToken();
                         if(f2i.get(tmp)!=null) {
                                 num = f2i.get(tmp);
-                                //solo se non lo contiene già
+                                
                                 if(!index.get(i).contains(num))
                                         index.get(i).add(num);
                         }
@@ -132,7 +132,7 @@ public class DocumentsSet {
             }
             in.close();
         }catch (Exception e){
-            System.err.println("Errore: " + e.getMessage());
+            System.err.println("Error " + e.getMessage());
         }
         this._doc2feat_test = index;
         }
