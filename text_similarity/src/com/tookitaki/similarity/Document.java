@@ -15,7 +15,7 @@ public class Document {
 	
 	private String document;
 	private List<Token> tokens;
-	
+	private TermFreqVectorBuilder tvfs;
 	
 	public Document(String d) throws Exception{
 		this.document = d;
@@ -26,6 +26,7 @@ public class Document {
 		while ((token = wordTokenizer.nextToken()) != null) {
 			tokens.add(token);
 	    }
+		this.tvfs = null;
 	}
 	
 	public void applyRecognizers(List<IRecognizer> recognizers) throws Exception{
@@ -47,8 +48,20 @@ public class Document {
 		pchain.init();
 		tokens = pchain.process(tokens);
 	}
+	
+	public void buildTermFrequency(){
+		this.tvfs = new TermFreqVectorBuilder(this.tokens);
+	}
 	public List<Token> getTokenSnapshot() {
 		return new LinkedList<Token>(this.tokens); //Do not expose internal member
+	}
+	
+	public String[] getTerms() {
+		return this.tvfs.getTerms();
+	}
+	
+	public int[] getFrequency() {
+		return this.tvfs.getTermFrequencies();
 	}
 	 
 }

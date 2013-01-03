@@ -1,6 +1,7 @@
 package test;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -9,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tookitaki.similarity.Document;
+import com.tookitaki.similarity.DocumentMatrix;
 import com.tookitaki.similarity.TermFreqVectorBuilder;
 import com.tookitaki.similarity.TokenProcessing.IProcessor;
 import com.tookitaki.similarity.TokenProcessing.ProcessorChain;
@@ -43,6 +45,8 @@ public class RecognizerTest {
 			"ordered me something some thoughts somethings"
 	  };
 	
+	private String QUERY = "ordered me something some thoughts somethings";
+	
 	@BeforeClass
 	public static void setupBeforeClass() throws Exception {
 		
@@ -68,22 +72,37 @@ public class RecognizerTest {
 	
 	@Test
 	public void test() throws Exception {
+		
+		List<Document> docs = new LinkedList<Document>();
 		for (String inputText : INPUT_TEXTS) {
 			Document d = new Document(inputText);
 			d.applyRecognizers(chain);
 			d.applyProcessors(pchain);
-			List<Token> tokens = d.getTokenSnapshot();
-			for (Token token : tokens) {
-				System.out.println("token=" + token.toString());
-			}
-			TermFreqVectorBuilder tvf = new TermFreqVectorBuilder(tokens);
-			
-			String[] terms = tvf.getTerms();
-			int[] freqs = tvf.getTermFrequencies();
-			for (int i=0;i<terms.length;++i) {
-				System.out.println("Term: "+terms[i] + " Freq: " + freqs[i]);
-			}			
+			d.buildTermFrequency();
+			docs.add(d);
 		}
+		Document query = new Document(QUERY);
+		query.applyRecognizers(chain);
+		query.applyProcessors(pchain);
+		query.buildTermFrequency();
+		DocumentMatrix doc_matrix = new DocumentMatrix(docs);
+		List<Double> result = doc_matrix.getSimilarity(query);
+		
+		for(double val : result){
+			System.out.println(val);
+		}
+//			List<Token> tokens = d.getTokenSnapshot();
+//			for (Token token : tokens) {
+//				System.out.println("token=" + token.toString());
+//			}
+//			TermFreqVectorBuilder tvf = new TermFreqVectorBuilder(tokens);
+//			
+//			String[] terms = tvf.getTerms();
+//			int[] freqs = tvf.getTermFrequencies();
+//			for (int i=0;i<terms.length;++i) {
+//				System.out.println("Term: "+terms[i] + " Freq: " + freqs[i]);
+//			}			
+//		}
 	}
 
 }

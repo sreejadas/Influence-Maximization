@@ -5,3 +5,4 @@ i
 *.war
 *.ear
 .metadata
+*/bin/
