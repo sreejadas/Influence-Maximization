@@ -13,6 +13,7 @@ import com.tookitaki.similarity.Document;
 import com.tookitaki.similarity.DocumentMatrix;
 import com.tookitaki.similarity.TermFreqVectorBuilder;
 import com.tookitaki.similarity.TokenProcessing.IProcessor;
+import com.tookitaki.similarity.TokenProcessing.Preprocessor;
 import com.tookitaki.similarity.TokenProcessing.ProcessorChain;
 import com.tookitaki.similarity.TokenProcessing.Stemmers;
 import com.tookitaki.similarity.TokenProcessing.StopWordFilter;
@@ -42,7 +43,7 @@ public class RecognizerTest {
 //			"#FollowBackAChilenosDeSantiago síganme la people! Los sigo a todos" ,
 //			"#WhatMakesMeSmile @Monsta_beat :)" ,
 //			"Talk dirty to me (koffing, muk)",
-			"ordered me something some thoughts somethings"
+			"ordered me something some thoughts somethings HAHAHA :)"
 	  };
 	
 	private String QUERY = "ordered me something some thoughts somethings";
@@ -58,12 +59,14 @@ public class RecognizerTest {
 		
 		List<TokenType> typesToFilter = Arrays.asList(new TokenType[] {
 				TokenType.WHITESPACE,
-				TokenType.PUNCTUATION		
+				TokenType.PUNCTUATION,
+				TokenType.EMOTICON,
 		});
 				
 		pchain = new ProcessorChain(Arrays.asList(new IProcessor[] {
 				new TokenRemover(typesToFilter),
 				new StopWordFilter(),
+				new Preprocessor(Preprocessor.MAKE_LOWERCASE),
 				new Stemmers()
 		}));
 //		pchain.init();
@@ -81,16 +84,26 @@ public class RecognizerTest {
 			d.buildTermFrequency();
 			docs.add(d);
 		}
-		Document query = new Document(QUERY);
-		query.applyRecognizers(chain);
-		query.applyProcessors(pchain);
-		query.buildTermFrequency();
-		DocumentMatrix doc_matrix = new DocumentMatrix(docs);
-		List<Double> result = doc_matrix.getSimilarity(query);
 		
-		for(double val : result){
-			System.out.println(val);
+		for(Document d: docs){
+			System.out.println(d.getText());
+			String[] terms = d.getTerms();
+			int[] freq = d.getFrequency();
+			for(int i=0;i<terms.length;++i){
+				System.out.println(terms[i] + ": "+freq[i]);
+			}
 		}
+		
+//		Document query = new Document(QUERY);
+//		query.applyRecognizers(chain);
+//		query.applyProcessors(pchain);
+//		query.buildTermFrequency();
+//		DocumentMatrix doc_matrix = new DocumentMatrix(docs);
+//		List<Double> result = doc_matrix.getSimilarity(query);
+//		
+//		for(double val : result){
+//			System.out.println(val);
+//		}
 //			List<Token> tokens = d.getTokenSnapshot();
 //			for (Token token : tokens) {
 //				System.out.println("token=" + token.toString());

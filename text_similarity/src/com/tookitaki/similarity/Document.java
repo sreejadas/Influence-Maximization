@@ -63,5 +63,9 @@ public class Document {
 	public int[] getFrequency() {
 		return this.tvfs.getTermFrequencies();
 	}
+	
+	public String getText(){
+		return this.document;
+	}
 	 
 }
