@@ -93,17 +93,19 @@ public class RecognizerTest {
 				System.out.println(terms[i] + ": "+freq[i]);
 			}
 		}
+		/* Here starts the querying part */
+		Document query = new Document(QUERY);
+		query.applyRecognizers(chain);
+		query.applyProcessors(pchain);
+		query.buildTermFrequency();
+		DocumentMatrix doc_matrix = new DocumentMatrix(docs);
+		List<Double> result = doc_matrix.getSimilarity(query);
 		
-//		Document query = new Document(QUERY);
-//		query.applyRecognizers(chain);
-//		query.applyProcessors(pchain);
-//		query.buildTermFrequency();
-//		DocumentMatrix doc_matrix = new DocumentMatrix(docs);
-//		List<Double> result = doc_matrix.getSimilarity(query);
-//		
-//		for(double val : result){
-//			System.out.println(val);
-//		}
+		for(double val : result){
+			System.out.println(val);
+		}
+		/* This completes the query and printing of similarity values */ 
+		
 //			List<Token> tokens = d.getTokenSnapshot();
 //			for (Token token : tokens) {
 //				System.out.println("token=" + token.toString());
