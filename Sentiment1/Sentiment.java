@@ -9,7 +9,7 @@ public class Sentiment {
         
         public static void main(String[] args) throws Exception {
             
-               
+               /*4 stands for positive statements and 0 for neagtive ones*/
                 ClassifierBuilder clb = new ClassifierBuilder();
                 Options opt = new Options();
                 clb.setOpt(opt);
@@ -20,6 +20,7 @@ public class Sentiment {
                 clb.prepareTest();
                 NaiveBayes nb = new NaiveBayes();
                 WekaClassifier wc = clb.constructClassifier(nb);
-                System.out.println(wc.classify("this is unbelievably good"));
+				System.out.print("class ->");
+                System.out.println(wc.classify("this is really bad")); /*insert the new tweet here*/
 			}
 }
