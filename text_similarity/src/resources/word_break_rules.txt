@@ -49,7 +49,7 @@ $HyphenatedWord = [A-Za-z0-9]+([\-\+\&_][A-Za-z0-9]+)+;
 # Email address: sequence of letters, digits and punctuation followed by @ and followed by another sequence
 $EmailAddress = [A-Za-z0-9_\-\.]+\@[A-Za-z][A-Za-z0-9_]+\.[a-z]+;
 # Internet Addresses: http://www.foo.com(/bar)
-$InternetAddress = http\:\/\/[a-z0-9]+(\.[a-z0-9]+)+(\/[a-z0-9][a-z0-9\.]+);
+$InternetAddress = https?\:\/\/[a-z0-9]+(\.[a-z0-9]+)+(\/[a-z0-9][a-z0-9\.\/_]+);
 # XML markup: A run begins with < and ends with the first matching >
 $XmlMarkup = \<[^\>]+\>; 
 # Emoticon: A run that starts with :;B8{[ and contains only one or more of the following -=/{})(

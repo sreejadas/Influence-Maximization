@@ -85,15 +85,16 @@ public class DocumentMatrix {
 	}
 	
 	private SparseRealVector idf(SparseRealVector vector, Map<String,Integer> map){
+		int no_of_docs = this.doc_list.size();
 		SparseRealVector result = new OpenMapRealVector(vector.getDimension());
 		for(Map.Entry<String, Integer> entry : map.entrySet()){
 			int index = entry.getValue();
 			String term = entry.getKey();
 			if( this.word_map.containsKey(term)){
 				int occurance = this.word_map.get(term);
-				result.setEntry(index, vector.getEntry(index) / occurance);
+				result.setEntry(index, vector.getEntry(index) * Math.log(no_of_docs /1+occurance));
 			} else {
-				result.setEntry(index,vector.getEntry(index));
+				result.setEntry(index,vector.getEntry(index) * Math.log(no_of_docs)); //This will execute only for query string
 			}
 		}
 		return result;
